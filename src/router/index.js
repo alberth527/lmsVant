@@ -38,7 +38,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('lmsVant'), // Set base path for deployment
+  history: createWebHistory('/lmsVant/'), // Set base path for GitHub Pages
   routes
 })
 
