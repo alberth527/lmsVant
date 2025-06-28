@@ -5,6 +5,7 @@ import { VantResolver } from 'unplugin-vue-components/resolvers'
 import { resolve } from 'path'
 
 export default defineConfig({
+  base: process.env.NODE_ENV === 'production' ? '/lmsVant/' : '/',
   plugins: [
     vue(),
     Components({
