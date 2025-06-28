@@ -4,14 +4,17 @@ import Components from 'unplugin-vue-components/vite'
 import { VantResolver } from 'unplugin-vue-components/resolvers'
 import { resolve } from 'path'
 
-export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/lmsVant/' : '/',
-  plugins: [
-    vue(),
-    Components({
-      resolvers: [VantResolver()],
-    }),
-  ],
+export default defineConfig(({ command, mode }) => {
+  const isProduction = mode === 'production'
+  
+  return {
+    base: isProduction ? '/lmsVant/' : '/',
+    plugins: [
+      vue(),
+      Components({
+        resolvers: [VantResolver()],
+      }),
+    ],
   base: '/lmsVant/', // Set base path for deployment
   resolve: {
     alias: {
@@ -32,5 +35,6 @@ export default defineConfig({
   server: {
     port: 3000,
     host: '0.0.0.0'
+  }
   }
 })

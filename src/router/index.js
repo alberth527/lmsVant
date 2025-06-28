@@ -38,7 +38,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.NODE_ENV === 'production' ? '/lmsVant/' : '/'),
+  history: createWebHistory(import.meta.env.PROD ? '/lmsVant/' : '/'),
   routes
 })
 
