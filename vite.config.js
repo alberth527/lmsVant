@@ -5,36 +5,55 @@ import { VantResolver } from 'unplugin-vue-components/resolvers'
 import { resolve } from 'path'
 
 export default defineConfig(({ command, mode }) => {
-  const isProduction = mode === 'production'
+  // 根據不同環境設定 base 路徑
+  let base = '/'
+  if (command === 'build') {
+    // 如果是 GitHub Pages 部署
+    if (mode === 'github') {
+      base = '/lmsVant/'
+    }
+    // 如果是 IIS 部署，使用根路徑
+    else if (mode === 'production') {
+      base = '/'
+    }
+  }
   
   return {
-    base: isProduction ? '/lmsVant/' : '/',
+    base: base,
     plugins: [
       vue(),
       Components({
         resolvers: [VantResolver()],
       }),
     ],
-  base: '/lmsVant/', // Set base path for deployment
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src')
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, 'src')
+      }
+    },
+    define: {
+      global: 'globalThis',
+      __VUE_PROD_DEVTOOLS__: false
+    },
+    build: {
+      target: 'esnext',
+      minify: 'esbuild',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['vue', 'vue-router', 'pinia'],
+            vant: ['vant']
+          }
+        }
+      }
+    },
+    optimizeDeps: {
+      include: ['vue', 'vue-router', 'pinia', 'vant']
+    },
+    server: {
+      port: 3000,
+      host: 'localhost',
+      open: true
     }
-  },
-  define: {
-    global: 'globalThis',
-    __VUE_PROD_DEVTOOLS__: false
-  },
-  build: {
-    target: 'esnext',
-    minify: 'esbuild'
-  },
-  optimizeDeps: {
-    include: ['vue', 'vue-router', 'pinia', 'vant']
-  },
-  server: {
-    port: 3000,
-    host: '0.0.0.0'
-  }
   }
 })
