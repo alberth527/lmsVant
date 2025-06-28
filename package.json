@@ -1,0 +1,22 @@
+{
+    "name": "member-loyalty-system",
+    "version": "1.0.0",
+    "description": "會員紅利兌換系統",
+    "type": "module",
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "dependencies": {
+      "vue": "^3.3.8",
+      "vue-router": "^4.2.5",
+      "vant": "^4.8.1",
+      "pinia": "^2.1.7"
+    },
+    "devDependencies": {
+      "@vitejs/plugin-vue": "^4.5.0",
+      "vite": "^4.5.0",
+      "unplugin-vue-components": "^0.25.2"
+    }
+  }
