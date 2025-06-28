@@ -19,6 +19,17 @@ export default defineConfig({
   define: {
     global: 'globalThis',
   },
+  build: {
+    rollupOptions: {
+      external: [],
+      output: {
+        manualChunks: {
+          vendor: ['vue', 'vue-router', 'pinia'],
+          vant: ['vant']
+        }
+      }
+    }
+  },
   server: {
     port: 3000,
     host: true
