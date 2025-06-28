@@ -38,7 +38,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('lmsVant'), // Set base path for deployment
   routes
 })
 

@@ -6,7 +6,11 @@
       @click-left="$router.back()"
     />
 
-    <div v-if="product" class="content">
+    <div v-if="loading" class="loading-state">
+      <van-loading size="24px" vertical>載入中...</van-loading>
+    </div>
+
+    <div v-else-if="product" class="content">
       <!-- 商品資訊 -->
       <div class="product-section">
         <van-card>
@@ -92,6 +96,7 @@ const productStore = useProductStore()
 
 const product = ref(null)
 const exchanging = ref(false)
+const loading = ref(true)
 
 const remainingPoints = computed(() => {
   if (!product.value) return 0
@@ -165,7 +170,21 @@ const performExchange = async () => {
 
 onMounted(() => {
   const productId = route.params.id
-  product.value = productStore.getProductById(productId)
+  console.log('Product ID:', productId) // 調試用
+  
+  // 模擬載入延遲
+  setTimeout(() => {
+    product.value = productStore.getProductById(productId)
+    console.log('Found product:', product.value) // 調試用
+    loading.value = false
+    
+    if (!product.value) {
+      showNotify({ type: 'danger', message: '商品不存在' })
+      setTimeout(() => {
+        router.back()
+      }, 1500)
+    }
+  }, 500)
 })
 </script>
 
@@ -243,5 +262,10 @@ onMounted(() => {
 
 .error-state .van-button {
   margin-top: 16px;
+}
+
+.loading-state {
+  padding: 100px 16px;
+  text-align: center;
 }
 </style>

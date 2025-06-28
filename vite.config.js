@@ -11,6 +11,7 @@ export default defineConfig({
       resolvers: [VantResolver()],
     }),
   ],
+  base: '/lmsVant/', // Set base path for deployment
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src')
@@ -18,20 +19,17 @@ export default defineConfig({
   },
   define: {
     global: 'globalThis',
+    __VUE_PROD_DEVTOOLS__: false
   },
   build: {
-    rollupOptions: {
-      external: [],
-      output: {
-        manualChunks: {
-          vendor: ['vue', 'vue-router', 'pinia'],
-          vant: ['vant']
-        }
-      }
-    }
+    target: 'esnext',
+    minify: 'esbuild'
+  },
+  optimizeDeps: {
+    include: ['vue', 'vue-router', 'pinia', 'vant']
   },
   server: {
     port: 3000,
-    host: true
+    host: '0.0.0.0'
   }
 })
